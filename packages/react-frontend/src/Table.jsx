@@ -23,7 +23,6 @@ function TableHeader() {
         </td>
       </tr>
       
-        
       );
      }
     );
