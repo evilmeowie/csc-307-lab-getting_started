@@ -20,15 +20,37 @@ function MyApp() {
   }, []);
 
   function removeOneCharacter(index) {
-    const updated = characters.filter((character, i) => {
-      return i !== index;
-    });
-    setCharacters(updated);
+    const id = characters[index].id;
+  
+    fetch(`http://localhost:8000/users/${id}`, {
+       method: "DELETE",
+    })
+      .then((res) => {
+        if (res.status === 204){
+          const updated = characters.filter((_, i) => i !== index);
+          setCharacters(updated);
+        }
+        else if (res.status === 404) {
+          console.log("User not found");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   function updateList(person) {
     postUser(person)
-      .then(() => setCharacters([...characters, person]))
+      .then((res) => {
+        if (res.status === 201) {
+          return res.json();
+        }
+      })
+      .then((newUser) => {
+        if (newUser) {
+          setCharacters([...characters, newUser]);
+        }
+      })
       .catch((error) => {
         console.log(error);
       });

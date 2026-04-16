@@ -5,6 +5,7 @@ import cors from "cors";
 const app = express();
 const port = 8000;
 
+
 app.use(cors());
 app.use(express.json());
 const users = {
@@ -81,16 +82,26 @@ app.get("/users/:id", (req, res) => {
     res.send(result);
   }
 });
-//task 5
-const addUser = (user) => {
+//updated task 5
+/*const addUser = (user) => {
     users["users_list"].push(user);
     return user;
+  };*///not used anymore
+  const generateId = () => {
+    return Math.random().toString(36).substring(2, 9);
   };
-  
+
   app.post("/users", (req, res) => {
     const userToAdd = req.body;
-    addUser(userToAdd);
-    res.send();
+  
+    const newUser = {
+      ...userToAdd,
+      id: generateId()
+    };
+  
+    users["users_list"].push(newUser);
+  
+    res.status(201).send(newUser);
   });
 
 // task 7
@@ -109,7 +120,7 @@ app.delete("/users/:id", (req, res) => {
   if (!deleted) {
     res.status(404).send("Resource not found.");
   }else {
-    res.send();
+    res.status(204).send(); //updated
   }
 });
 
