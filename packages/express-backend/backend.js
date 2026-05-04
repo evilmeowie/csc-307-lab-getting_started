@@ -18,8 +18,7 @@ app.get("/users", (req, res) => {
   const name = req.query.name;
   const job = req.query.job;
 
-  userServices
-    .getUsers(name, job)
+  userServices.getUsers(name, job)
     .then((result) => {
       res.send({ users_list: result });
     })

@@ -1,13 +1,14 @@
+import dotenv from "dotenv";
+
+dotenv.config();
+
 import mongoose from "mongoose";
 import userModel from "./user.js";
 
 mongoose.set("debug", true);
 
 mongoose
-  .connect("mongodb+srv://dbaitaza_user:password@evilmeowie.jqkao32.mongodb.net/?appName=evilmeowie", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGODB_URI)
   .catch((error) => console.log(error));
 
   function getUsers(name, job) {
